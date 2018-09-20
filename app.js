@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use('/scribble', express.static(__dirname + '/node_modules/scribbletune/dist'));
 
 app.use('/', indexRouter);
 
