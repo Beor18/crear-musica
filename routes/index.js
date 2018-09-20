@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const scribble = require('scribbletune');
 const Archivo = require('../models/Archivo');
+const path = require('path');
 
 router.get('/', async(req, res, next) => {
     const musica = await Archivo.find();
@@ -14,8 +15,8 @@ router.post('/', async(req, res) => {
         notes: req.body.notas,
         pattern: req.body.patterns.repeat(8)
     });
-    let arch = './public/chords-' + Date.now() + '-.mid';
-    scribble.midi(clip, arch);
+    let arch = path.join('chords-' + Date.now() + '-.mid');
+    scribble.midi(clip, './public/' + arch);
 
     // Se guarda en la base de datos las notas
     let mid = new Archivo({
