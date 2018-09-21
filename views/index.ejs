@@ -29,6 +29,7 @@
                         <th>Notas</th>
                         <th>Patterns</th>
                         <th style="text-align:center !important;">Link De Descarga</th>
+                        <th style="text-align:center !important;">Opl3</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,9 @@
                                 </td>
                                 <td style="text-align:center !important;">
                                     <a href="<%= musica[i].arch %>" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open"></span> Descargar Archivo</a>
+                                </td>
+                                <td style="text-align:center !important;">
+                                    <a href="<%= musica[i].link %>" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open"></span> Escuchar Archivo MP3</a>
                                 </td>
                             </tr>
                             <% } %>
