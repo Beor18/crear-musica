@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const ArchivoSchema = new Schema({
     notes: { type: String },
     pattern: { type: String },
-    arch: { type: String }
+    arch: { type: String },
+    link: { type: String }
 
 });
 
