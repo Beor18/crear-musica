@@ -47,7 +47,9 @@
                                 </td>
                                 <td style="text-align:center !important;">
                                     <a href="<%= musica[i].link %>" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open"></span> Escuchar Archivo MP3</a>
+                                    <a href="http://localhost:3000/delete/<%= musica[i].id %>" type="button" class="btn btn-success btn-xs" style="background:red !important;"><span class="glyphicon glyphicon-remove">x</span></a>
                                 </td>
+
                             </tr>
                             <% } %>
                                 <%} else {%>

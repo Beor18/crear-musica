@@ -25,10 +25,10 @@ router.post('/', async(req, res) => {
     scribble.midi(clip, './public/' + arch);
 
     // Procesamos archivo mid y convertimos a mp3 utilizando los sonidos del emulador Yamaha Opl3
-    const player = new Player(LAA);
-    const link = 'yamaha-' + Date.now() + '-.mp3';
-    const file = fs.createWriteStream('./public/' + link);
-    const encoder = new lame.Encoder({
+    let player = new Player(LAA);
+    let link = 'yamaha-' + Date.now() + '-.mp3';
+    let file = fs.createWriteStream('./public/' + link);
+    let encoder = new lame.Encoder({
         // Input/Entrada
         channels: 2, // 2 channels (left and right)
         bitDepth: 16, // 16-bit samples
@@ -40,8 +40,7 @@ router.post('/', async(req, res) => {
 
     player.load(fs.readFileSync('./public/' + arch));
     player.on('progress', function(value) {
-        //process.stdout.write('# \n ');
-        console.log('Archivo .mp3 generado con ÉXITO! por Emulador Yamaha OPL3 ');
+        console.log('Archivo .mp3 generado con ÉXITO! por Emulador Yamaha OPL3 \n ');
     });
 
     // Se guarda en la base de datos las notas
@@ -55,6 +54,30 @@ router.post('/', async(req, res) => {
     await mid.save(() => {
         res.send("Archivo guardado con éxito en la DB!");
         console.log("Archivo guardado con éxito en la DB!");
+    });
+
+});
+
+router.get('/delete/:id', async(req, res) => {
+    let p = await Archivo.findById({ _id: req.params.id, arch: req.body.arch, link: req.body.link });
+
+    fs.unlink('./public/' + p.arch, (err) => {
+        if (err) throw err;
+        console.log('Borrado MIDI OK!');
+    });
+
+    fs.unlink('./public/' + p.link, (err) => {
+        if (err) throw err;
+        console.log('Borrado MP3 OK!');
+    });
+
+    await Archivo.findByIdAndRemove(req.params.id, (err) => {
+
+        if (err) {
+            return res.send(err);
+        } else {
+            res.redirect('/');
+        }
     });
 });
 
