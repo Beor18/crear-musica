@@ -32,7 +32,7 @@ router.post('/', async(req, res) => {
         // Input/Entrada
         channels: 2, // 2 channels (left and right)
         bitDepth: 16, // 16-bit samples
-        sampleRate: 49700 // 49,700 Hz sample rate
+        sampleRate: req.body.sampleRate // 49,700 Hz sample rate
     });
 
     player.pipe(encoder);
@@ -40,7 +40,7 @@ router.post('/', async(req, res) => {
 
     player.load(fs.readFileSync('./public/' + arch));
     player.on('progress', function(value) {
-        console.log('Archivo .mp3 generado con ÉXITO! por Emulador Yamaha OPL3 \n ');
+        console.log('Progreso: ' + value + '%');
     });
 
     // Se guarda en la base de datos las notas

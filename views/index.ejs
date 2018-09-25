@@ -19,6 +19,10 @@
             <strong> Ingrese Patterns</strong>
             <input type="text" name="patterns">
             <br><br>
+            <strong> Rango</strong>
+            <input oninput="x.value=parseInt(a.value)" type="range" id="a" name="sampleRate" min="20000" max="70000" value="50">
+            <output name="x" for="a"></output> Hz
+            <br><br>
             <input type="submit" value="Crear archivo MIDI" class="btn btn-success">
         </form>
 
@@ -28,7 +32,7 @@
                     <tr>
                         <th>Notas</th>
                         <th>Patterns</th>
-                        <th style="text-align:center !important;">Link De Descarga</th>
+                        <th style="text-align:center !important;">MIDI</th>
                         <th style="text-align:center !important;">Opl3</th>
                     </tr>
                 </thead>
@@ -46,8 +50,15 @@
                                     <a href="<%= musica[i].arch %>" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open"></span> Descargar Archivo</a>
                                 </td>
                                 <td style="text-align:center !important;">
-                                    <a href="<%= musica[i].link %>" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open"></span> Escuchar Archivo MP3</a>
-                                    <a href="http://localhost:3000/delete/<%= musica[i].id %>" type="button" class="btn btn-success btn-xs" style="background:red !important;"><span class="glyphicon glyphicon-remove">x</span></a>
+
+                                    <audio controls loop>
+                                    <source src="<%= musica[i].link %>" type="audio/mpeg">
+                                  Your browser does not support the audio element.
+                                  </audio>
+
+                                </td>
+                                <td>
+                                    <a href="http://localhost:3000/delete/<%= musica[i].id %>" type="button" class="btn btn-success btn-xs" style="background:red !important;"><span class="glyphicon glyphicon-remove">borrar</span></a>
                                 </td>
 
                             </tr>
