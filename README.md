@@ -40,8 +40,8 @@ arch
 
 ### Demo
 
-[Imgur](https://i.imgur.com/XAwjL06.png)
+![Imgur](https://i.imgur.com/XAwjL06.png)
 
-[Imgur](https://i.imgur.com/XZ0gKbG.png)
+![Imgur](https://i.imgur.com/XZ0gKbG.png)
 
-[Imgur](https://i.imgur.com/xWjfU3w.png)
+![Imgur](https://i.imgur.com/xWjfU3w.png)
