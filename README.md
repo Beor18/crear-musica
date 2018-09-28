@@ -1,6 +1,14 @@
 # Crear Música
 
-Ingresá las notas musicales y los patrones.
+Ingresá las notas musicales y los patrones transforma el archivo .mid a .mp3 utilizando el emulador Yamaha Opl3
+
+### Actualizaciones al 28/09/2018
+
+- [Agregado] Libreria Emulador Yamaha Opl3
+
+- [Agregado] Borrar de la base de datos y tambien borra los archivos generados (.mid y .mp3)
+
+- [Agregado] Tasa de muestreo. Ejemplo: 49700Hz
 
 ### Instalación
 
@@ -16,6 +24,12 @@ $ npm install
 $ npm start
 ```
 
+### Si sale algún error que falta el modulo Lame o algo similar intenten instalando por separado:
+
+```sh
+npm install lame --save
+```
+
 #### Base de Datos
 
 ```
@@ -23,3 +37,11 @@ notes
 pattern
 arch
 ```
+
+### Demo
+
+![demo-crear-musica](https://imgur.com/XAwjL06)
+
+![demo-crear-musica](https://imgur.com/XZ0gKbG)
+
+![demo-crear-musica](https://imgur.com/xWjfU3w)
