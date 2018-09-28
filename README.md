@@ -40,8 +40,8 @@ arch
 
 ### Demo
 
-![demo-crear-musica](https://imgur.com/XAwjL06)
+[Imgur](https://i.imgur.com/XAwjL06.png)
 
-![demo-crear-musica](https://imgur.com/XZ0gKbG)
+[Imgur](https://i.imgur.com/XZ0gKbG.png)
 
-![demo-crear-musica](https://imgur.com/xWjfU3w)
+[Imgur](https://i.imgur.com/xWjfU3w.png)
