@@ -1,22 +1,32 @@
-const fs = require('fs');
 const lame = require('lame');
-const OPL3 = require('opl3').OPL3;
-const LAA = require('opl3').format.LAA;
-const Player = require('opl3').Player;
+const fs = require("fs");
+const AudioContext = require("web-audio-engine").RenderingAudioContext;
+const context = new AudioContext();
+const wae = require("web-audio-engine");
+const audioData = context.exportAsAudioData();
 
-const player = new Player(LAA);
-const file = fs.createWriteStream('./public/testing.mp3');
 const encoder = new lame.Encoder({
     // input
     channels: 2, // 2 channels (left and right)
     bitDepth: 16, // 16-bit samples
-    sampleRate: 49700 // 49,700 Hz sample rate
+    sampleRate: 44100, // 44,100 Hz sample rate
+
+    // output
+    bitRate: 128,
+    outSampleRate: 22050,
+    mode: lame.STEREO // STEREO (default), JOINTSTEREO, DUALCHANNEL or MONO
 });
 
-player.pipe(encoder);
-encoder.pipe(file);
+wae.encoder.set("mp3", encoder);
 
-player.load(fs.readFileSync('./public/chords-1537485160216-.mid'));
-player.on('progress', function(value) {
-    process.stdout.write('Bien!');
+jugador.load(fs.readFileSync('./public/chords-1538053321666-.mid'));
+jugador.on('progress', function(value) {
+    console.log('Progreso: ' + value + '%');
+});
+
+context.encodeAudioData(audioData, wae).then((arrayBuffer) => {
+    fs.writeFile("output.mp3", new Buffer(arrayBuffer), (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
 });
