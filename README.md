@@ -14,20 +14,15 @@ Ingresá las notas musicales y los patrones transforma el archivo .mid a .mp3 ut
 
 Libreria utilizada [Scribbletune](https://scribbletune.com/)
 
-Tener instalado [Node.js](https://nodejs.org/) y [MongoDb](https://www.google.com).
+Tener instalado [Node.js](https://nodejs.org/). [MongoDb](https://www.google.com) y [Node-GYP](https://github.com/nodejs/node-gyp)
 
 Instalar las dependencias, tener ejecutado instancia mongod y ejecutar el server:
 
 ```sh
+$ npm install -g node-gyp
 $ crear carpeta public/
 $ npm install
 $ npm start
-```
-
-### Si sale algún error que falta el modulo Lame o algo similar intenten instalando por separado:
-
-```sh
-npm install lame --save
 ```
 
 #### Base de Datos
