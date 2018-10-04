@@ -7,8 +7,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./bin/db');
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
-const indexRouter = require('./routes/index');
+const index = require('./routes/index');
 
 const app = express();
 
@@ -31,8 +36,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use('/scribble', express.static(__dirname + '/node_modules/scribbletune/dist'));
 
-app.use('/', indexRouter);
+// Manejo de sesiones
+app.use(session({
+    secret: 'some-secret',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: config,
+    })
+}));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+app.use('/', index);
+
+require('./passport')(passport);
 
 app.use(function(req, res, next) {
     next(createError(404));

@@ -4,18 +4,30 @@ const scribble = require('scribbletune');
 const Archivo = require('../models/Archivo');
 const path = require('path');
 
+const passport = require('passport');
+
+const User = require('../models/user');
+
 const fs = require('fs');
 const lame = require('lame');
 const OPL3 = require('opl3').OPL3;
 const LAA = require('opl3').format.LAA;
 const Player = require('opl3').Player
 
-router.get('/', async(req, res, next) => {
-    const musica = await Archivo.find();
-    res.render('index', { title: 'Express', musica });
+router.get('/', (req, res, next) => {
+    res.render('login', { message: req.flash('loginMessaje') });
 });
 
-router.post('/', async(req, res) => {
+router.get('/perfil', async(req, res, next) => {
+    const musica = await Archivo.find();
+    res.render('index.ejs', {
+        title: 'Express',
+        musica,
+        user: req.user
+    });
+});
+
+router.post('/perfil', async(req, res) => {
     // Se crea el archivo MIDI
     let clip = scribble.clip({
         notes: req.body.notas,
@@ -76,9 +88,41 @@ router.get('/delete/:id', async(req, res) => {
         if (err) {
             return res.send(err);
         } else {
-            res.redirect('/');
+            res.redirect('/perfil');
         }
     });
 });
 
+
+// Manejo de logn y registro
+
+router.get('/registro', (req, res) => {
+    res.render('registro', { message: req.flash('signupMessage') });
+});
+
+router.post('/registro', passport.authenticate('local-signup', {
+    failureRedirect: '/',
+    failureFlash: true,
+}), function(req, res) {
+    res.redirect('/perfil');
+});
+
+router.post('/login', passport.authenticate('local-login', {
+    failureRedirect: '/',
+    failureFlash: true,
+}), function(req, res) {
+    res.redirect('/perfil');
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+}

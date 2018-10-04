@@ -1,0 +1,33 @@
+<div class="col-md-10 col-md-offset-2 content">
+    <h2>Registrarse al Sistema</h2>
+    <form action="/registro" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="text" name="username" placeholder="Usuario">
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Contraseña">
+        </div>
+        <div>
+            <input type="text" name="country" placeholder="Pais">
+        </div>
+
+        <div>
+            <select name="role">
+                            <option value="ADMIN_ROLE">Administrador</option>
+                            <option value="USER_ROLE">Usuario Común</option>
+                          </select>
+        </div>
+
+        <div>
+
+        </div>
+
+        <!--<div>
+                    <input type="file" name="archivo" />
+                </div>-->
+
+        <div>
+            <input type="submit" value="Registrar" class="btn btn-success">
+        </div>
+    </form>
+</div>

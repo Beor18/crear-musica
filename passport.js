@@ -1,21 +1,59 @@
-const JWTStrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
-const mongoose = require('mongoose');
-const User = mongoose.model('users');
-const opts = {};
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/user');
 
-opts.jwtFromRequest = ExtractJWT.fromUrlQueryParameter('secret_token');
-opts.secretOrKey = 'secret';
+module.exports = (passport) => {
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+    passport.deserializeUser((id, done) => {
+        User.findById(id, (err, user) => {
+            done(err, user);
+        });
+    });
 
-module.exports = passport => {
-    passport.use(new JWTStrategy(opts, (jwt_payload, done) => {
-        User.findById(jwt_payload.id)
-            .then(user => {
-                if (user) {
-                    return done(null, user);
-                }
-                return done(null, false);
-            })
-            .catch(err => console.error(err));
-    }));
-}
+    passport.use('local-signup', new LocalStrategy({
+            usernameField: 'username',
+            passwordField: 'password',
+            passReqToCallback: true,
+        },
+        (req, username, password, done) => {
+            process.nextTick(function() {
+                User.findOne({ 'local.username': username }, (err, user) => {
+                    if (err)
+                        return done(err);
+                    if (user) {
+                        return done(null, false, req.flash('signupMessage', 'El e-mail está en uso.'));
+                    } else {
+                        var newUser = new User();
+                        newUser.local.username = username;
+                        newUser.local.password = newUser.generateHash(password);
+                        newUser.local.country = req.body.country;
+                        newUser.local.role = req.body.role;
+                        // newUser.local.foto = req.file.filename;
+                        newUser.save((err) => {
+                            if (err)
+                                throw err;
+                            return done(null, newUser);
+                        });
+                    }
+                });
+            });
+        }));
+
+    passport.use('local-login', new LocalStrategy({
+            usernameField: 'username',
+            passwordField: 'password',
+            passReqToCallback: true,
+        },
+        (req, username, password, done) => {
+            User.findOne({ 'local.username': username }, (err, user) => {
+                if (err)
+                    return done(err);
+                if (!user)
+                    return done(null, false, req.flash('loginMessage', 'Usuario no encontrado.'));
+                if (!user.validPassword(password))
+                    return done(null, false, req.flash('loginMessage', 'Contraseña incorrecta.'));
+                return done(null, user);
+            });
+        }));
+};
