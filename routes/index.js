@@ -50,8 +50,11 @@ router.post('/perfil', async(req, res) => {
     player.pipe(encoder);
     encoder.pipe(file);
 
-    player.load(fs.readFileSync('./public/' + arch));
-    player.on('progress', function(value) {
+    fs.readFile('./public/' + arch, (err, data) => {
+        if (err) throw err;
+        player.load(data);
+    });
+    player.on('progress', function progreso(value) {
         console.log('Progreso: ' + value + '%');
     });
 
