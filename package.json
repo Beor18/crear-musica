@@ -30,7 +30,7 @@
         "passport-http-bearer": "^1.0.1",
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",
-        "scribbletune": "^1.5.0",
+        "scribbletune": "^1.6.0",
         "speaker": "^0.4.1",
         "tone": "^13.3.9",
         "validator": "^10.5.0",

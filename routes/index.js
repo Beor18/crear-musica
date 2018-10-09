@@ -29,12 +29,28 @@ router.get('/perfil', async(req, res, next) => {
 
 router.post('/perfil', async(req, res) => {
     // Se crea el archivo MIDI
+    const theChords = scribble.progression.getChords('C4 major', 'i iv i iv i v i II');
+
+    const notesArr = scribble.progression.arpegiate({
+        chords: theChords,
+        count: 4,
+        order: '1032'
+    });
+
+    const c = scribble.clip({
+        notes: notesArr,
+        pattern: 'x-x_'.repeat(notesArr.length / 2),
+        subdiv: '16n'
+    });
+
     let clip = scribble.clip({
         notes: req.body.notas,
         pattern: req.body.patterns.repeat(8)
     });
+
     let arch = path.join('chords-' + Date.now() + '-.mid');
-    scribble.midi(clip, './public/' + arch);
+
+    scribble.midi(clip.concat(c), './public/' + arch);
 
     // Procesamos archivo mid y convertimos a mp3 utilizando los sonidos del emulador Yamaha Opl3
     let player = new Player(LAA);
